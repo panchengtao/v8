@@ -9,7 +9,7 @@ package v8
 //   Proxy objects
 
 // BUG(aroman) Unhandled promise rejections are silently dropped
-// (see https://github.com/augustoroman/v8/issues/21)
+// (see https://github.com/percentor/v8/issues/21)
 
 // #include <stdlib.h>
 // #include <string.h>

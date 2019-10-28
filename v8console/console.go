@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/augustoroman/v8"
+	"github.com/percentor/v8"
 )
 
 const (

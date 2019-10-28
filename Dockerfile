@@ -17,9 +17,9 @@ FROM ${V8_SOURCE_IMAGE}:${V8_VERSION} as v8
 # ------------ Build go v8 library and run tests ----------------------------
 FROM golang as builder
 # Copy the v8 code from the local disk, similar to:
-#   RUN go get github.com/augustoroman/v8 ||:
+#   RUN go get github.com/percentor/v8 ||:
 # but this allows using any local modifications.
-ARG GO_V8_DIR=/go/src/github.com/augustoroman/v8/
+ARG GO_V8_DIR=/go/src/github.com/percentor/v8/
 ADD *.go *.h *.cc $GO_V8_DIR
 ADD cmd $GO_V8_DIR/cmd/
 ADD v8console $GO_V8_DIR/v8console/
