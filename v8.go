@@ -434,7 +434,12 @@ func (v *Value) Call(this *Value, args ...*Value) (*Value, error) {
 	// always allocate at least one so &argPtrs[0] works.
 	argPtrs := make([]C.PersistentValuePtr, len(args)+1)
 	for i := range args {
-		argPtrs[i] = args[i].ptr
+		if args[i] != nil && args[i].ptr != nil {
+			argPtrs[i] = args[i].ptr
+		} else {
+			fmt.Println("argsI ptr is null")
+			return nil,errors.New("argsI ptr is null")
+		}
 	}
 	var thisPtr C.PersistentValuePtr
 	if this != nil {
