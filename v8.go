@@ -434,7 +434,11 @@ func (v *Value) Call(this *Value, args ...*Value) (*Value, error) {
 	// always allocate at least one so &argPtrs[0] works.
 	argPtrs := make([]C.PersistentValuePtr, len(args)+1)
 	for i := range args {
-		argPtrs[i] = args[i].ptr
+		if args[i] == nil {
+			return nil,errors.New("传入参数被系统释放")
+		} else {
+			argPtrs[i] = args[i].ptr
+		}
 	}
 	var thisPtr C.PersistentValuePtr
 	if this != nil {
