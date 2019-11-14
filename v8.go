@@ -276,8 +276,17 @@ func (ctx *Context) Bind(name string, cb Callback) *Value {
 func (ctx *Context) Global() *Value {
 	return ctx.newValue(C.v8_Context_Global(ctx.ptr), C.KindMask(KindObject))
 }
+func (ctx *Context) Release() {
+	if ctx.ptr != nil {
+		C.v8_Context_Release(ctx.ptr)
+	}
+	ctx.ptr = nil
+	contextsMutex.Lock()
+	delete(contexts, ctx.id)
+	contextsMutex.Unlock()
+	ctx.iso = nil
+}
 func (ctx *Context) release() {
-	fmt.Println("ctx Released started")
 	if ctx.ptr != nil {
 		C.v8_Context_Release(ctx.ptr)
 	}
@@ -289,7 +298,6 @@ func (ctx *Context) release() {
 
 	runtime.SetFinalizer(ctx, nil)
 	ctx.iso = nil // Allow the isolate to be GC'd if we're the last ptr to it.
-	fmt.Println("ctx Released finished")
 }
 
 // Terminate will interrupt any processing going on in the context.  This may
