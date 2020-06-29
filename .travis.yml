@@ -2,7 +2,15 @@
 # support c++11, which we need for our bindings.  Instead, use the newer trusty
 # (14.04) distribution.
 sudo: required
-dist: trusty
+
+jobs:
+  include:
+    - os: linux
+      dist: trusty
+    - os: osx
+      osx_image: xcode11.2
+      env:
+        - DARWIN_VERSION=16
 
 language: go
 go:
@@ -19,7 +27,7 @@ env:
 go_import_path: github.com/percentor/v8
 
 # Need to download & compile v8 libraries before running the tests.
-install: ./travis-install-linux.sh
+install: ./travis-install.sh
 
 notifications:
   email:
