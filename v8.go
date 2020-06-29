@@ -480,6 +480,10 @@ func (v *Value) New(args ...*Value) (*Value, error) {
 	return v.ctx.split(result)
 }
 
+func (v *Value) Release() {
+	v.release()
+}
+
 func (v *Value) release() {
 	if v.ptr != nil {
 		C.v8_Value_Release(v.ctx.ptr, v.ptr)
