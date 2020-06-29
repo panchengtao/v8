@@ -10,7 +10,7 @@ V8_DIR=${HOME}/libv8gem
 mkdir -p ${V8_DIR}
 pushd ${V8_DIR}
 
-curl https://rubygems.org/downloads/libv8-${V8_VERSION}-$(uname -m)-$(uname -s).gem | tar xv
+curl https://rubygems.org/downloads/libv8-${V8_VERSION}-$(uname -m)-$(uname -s | tr '[:upper:]' '[:lower:]').gem | tar xv
 tar xzvf data.tar.gz
 
 popd

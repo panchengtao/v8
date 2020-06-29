@@ -14,7 +14,7 @@ else
     mkdir -p ${V8_DIR}
     pushd ${V8_DIR}
 
-    curl https://rubygems.org/downloads/libv8-${V8_VERSION}-x86_64-darwin-${DARWIN_VERSION}.gem | tar xv
+    curl https://rubygems.org/downloads/libv8-${V8_VERSION}-$(uname -m)-$(uname -s | tr '[:upper:]' '[:lower:]')-${DARWIN_VERSION}.gem | tar xv
     tar xzvf data.tar.gz
 
     popd
