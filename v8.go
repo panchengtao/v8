@@ -152,7 +152,15 @@ type Isolate struct {
 }
 
 // NewIsolate creates a new V8 Isolate.
-func NewIsolate(maxOldHeapSize int) *Isolate {
+func NewIsolate() *Isolate {
+	v8_init_once.Do(func() { C.v8_init() })
+	iso := &Isolate{ptr: C.v8_Isolate_New(C.StartupData{ptr: nil, len: 0}, C.int(2048))}
+	runtime.SetFinalizer(iso, (*Isolate).release)
+	return iso
+}
+
+// NewIsolateWithSettings creates a new V8 Isolate.
+func NewIsolateWithSettings(maxOldHeapSize int) *Isolate {
 	v8_init_once.Do(func() { C.v8_init() })
 	iso := &Isolate{ptr: C.v8_Isolate_New(C.StartupData{ptr: nil, len: 0}, C.int(maxOldHeapSize))}
 	runtime.SetFinalizer(iso, (*Isolate).release)
@@ -161,7 +169,16 @@ func NewIsolate(maxOldHeapSize int) *Isolate {
 
 // NewIsolateWithSnapshot creates a new V8 Isolate using the supplied Snapshot
 // to initialize all Contexts created from this Isolate.
-func NewIsolateWithSnapshot(s *Snapshot, maxOldHeapSize int) *Isolate {
+func NewIsolateWithSnapshot(s *Snapshot) *Isolate {
+	v8_init_once.Do(func() { C.v8_init() })
+	iso := &Isolate{ptr: C.v8_Isolate_New(s.data, C.int(2048)), s: s}
+	runtime.SetFinalizer(iso, (*Isolate).release)
+	return iso
+}
+
+// NewIsolateWithSnapshotAndSettings creates a new V8 Isolate using the supplied Snapshot
+// to initialize all Contexts created from this Isolate.
+func NewIsolateWithSnapshotAndSettings(s *Snapshot, maxOldHeapSize int) *Isolate {
 	v8_init_once.Do(func() { C.v8_init() })
 	iso := &Isolate{ptr: C.v8_Isolate_New(s.data, C.int(maxOldHeapSize)), s: s}
 	runtime.SetFinalizer(iso, (*Isolate).release)

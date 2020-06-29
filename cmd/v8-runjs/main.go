@@ -33,7 +33,7 @@ const (
 
 func main() {
 	flag.Parse()
-	ctx := v8.NewIsolate(2048).NewContext()
+	ctx := v8.NewIsolateWithSettings(2048).NewContext()
 	v8console.Config{"", os.Stdout, os.Stderr, true}.Inject(ctx)
 
 	for _, filename := range flag.Args() {
