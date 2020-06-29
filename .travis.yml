@@ -17,8 +17,7 @@ go:
 
 # Indicate which versions of v8 to run the test suite against.
 env:
-  - DARWIN_VERSION=16
-  - V8_VERSION=6.3.292.48.1
+  - DARWIN_VERSION=16 V8_VERSION=6.3.292.48.1
   # Anything before 6.3 will break because of new ldflags definitions.
   # - V8_VERSION=6.2.414.42.1
   # - V8_VERSION=6.0.286.54.3
