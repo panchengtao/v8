@@ -485,6 +485,9 @@ func (v *Value) Release() {
 }
 
 func (v *Value) release() {
+	if v == nil {
+		return
+	}
 	if v.ptr != nil {
 		C.v8_Value_Release(v.ctx.ptr, v.ptr)
 	}
