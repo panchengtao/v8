@@ -481,7 +481,9 @@ func (v *Value) New(args ...*Value) (*Value, error) {
 }
 
 func (v *Value) Release() {
-	v.release()
+	if v != nil {
+		v.release()
+	}
 }
 
 func (v *Value) release() {
