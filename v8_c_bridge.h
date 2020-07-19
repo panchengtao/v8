@@ -114,7 +114,7 @@ extern void v8_init();
 
 extern StartupData v8_CreateSnapshotDataBlob(const char* js);
 
-extern IsolatePtr v8_Isolate_New(StartupData data);
+extern IsolatePtr v8_Isolate_New(StartupData data, int max_heap_size);
 extern ContextPtr v8_Isolate_NewContext(IsolatePtr isolate);
 extern void       v8_Isolate_Terminate(IsolatePtr isolate);
 extern void       v8_Isolate_Release(IsolatePtr isolate);

@@ -182,7 +182,7 @@ StartupData v8_CreateSnapshotDataBlob(const char* js) {
   return StartupData{data.data, data.raw_size};
 }
 
-IsolatePtr v8_Isolate_New(StartupData startup_data) {
+IsolatePtr v8_Isolate_New(StartupData startup_data, int max_heap_size) {
   v8::Isolate::CreateParams create_params;
   create_params.array_buffer_allocator = allocator;
   if (startup_data.len > 0 && startup_data.ptr != nullptr) {
@@ -190,6 +190,7 @@ IsolatePtr v8_Isolate_New(StartupData startup_data) {
     data->data = startup_data.ptr;
     data->raw_size = startup_data.len;
     create_params.snapshot_blob = data;
+    create_params.constraints.set_max_old_space_size(max_heap_size);
   }
   return static_cast<IsolatePtr>(v8::Isolate::New(create_params));
 }
