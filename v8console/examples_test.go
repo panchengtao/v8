@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/percentor/v8"
-	"github.com/percentor/v8/v8console"
+	"github.com/panchengtao/v8"
+	"github.com/panchengtao/v8/v8console"
 )
 
 func ExampleFlushSnapshotAndInject() {
 	const myJsCode = `
         // Typically this will be an auto-generated js bundle file.
-        function require() {} // fake stub
-        var when = require('when');
-        var _ = require('lodash');
+        function v8require() {} // fake stub
+        var when = v8require('when');
+        var _ = v8require('lodash');
         function renderPage(name) { return "<html><body>Hi " + name + "!"; }
         console.warn('snapshot initialization');
     `

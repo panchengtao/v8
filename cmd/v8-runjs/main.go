@@ -21,8 +21,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/percentor/v8"
-	"github.com/percentor/v8/v8console"
+	"github.com/panchengtao/v8"
+	"github.com/panchengtao/v8/v8console"
 	"github.com/peterh/liner"
 )
 

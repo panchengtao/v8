@@ -9,13 +9,11 @@ package v8
 //   Proxy objects
 
 // BUG(aroman) Unhandled promise rejections are silently dropped
-// (see https://github.com/percentor/v8/issues/21)
+// (see https://github.com/augustoroman/v8/issues/21)
 
 // #include <stdlib.h>
 // #include <string.h>
 // #include "v8_c_bridge.h"
-// #cgo CXXFLAGS: -I${SRCDIR} -I${SRCDIR}/include -fno-rtti -fpic -std=c++11
-// #cgo LDFLAGS: -pthread -L${SRCDIR}/libv8 -lv8_base -lv8_init -lv8_initializers -lv8_libbase -lv8_libplatform -lv8_libsampler -lv8_nosnapshot
 import "C"
 
 import (
@@ -28,6 +26,10 @@ import (
 	"time"
 	"unsafe"
 )
+
+func init() {
+	_ = LibV8LinkInfo
+}
 
 // Callback is the signature for callback functions that are registered with a
 // V8 context via Bind(). Never return a Value from a different V8 isolate. A
@@ -277,14 +279,7 @@ func (ctx *Context) Global() *Value {
 	return ctx.newValue(C.v8_Context_Global(ctx.ptr), C.KindMask(KindObject))
 }
 func (ctx *Context) Release() {
-	if ctx.ptr != nil {
-		C.v8_Context_Release(ctx.ptr)
-	}
-	ctx.ptr = nil
-	contextsMutex.Lock()
-	delete(contexts, ctx.id)
-	contextsMutex.Unlock()
-	ctx.iso = nil
+	ctx.release()
 }
 func (ctx *Context) release() {
 	if ctx.ptr != nil {
@@ -481,15 +476,10 @@ func (v *Value) New(args ...*Value) (*Value, error) {
 }
 
 func (v *Value) Release() {
-	if v != nil {
-		v.release()
-	}
+	v.release()
 }
 
 func (v *Value) release() {
-	if v == nil {
-		return
-	}
 	if v.ptr != nil {
 		C.v8_Value_Release(v.ctx.ptr, v.ptr)
 	}

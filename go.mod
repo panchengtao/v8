@@ -1,4 +1,4 @@
-module github.com/percentor/v8
+module github.com/panchengtao/v8
 
 go 1.12
 

@@ -3,7 +3,7 @@ package v8_test
 import (
 	"fmt"
 
-	"github.com/percentor/v8"
+	"github.com/panchengtao/v8"
 )
 
 func Example() {
